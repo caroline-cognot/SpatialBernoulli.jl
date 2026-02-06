@@ -1,0 +1,13 @@
+name = "SpatialBernoulli"
+uuid = "bdb9b825-6c71-4fe3-be93-6424a91bf7ea"
+authors = ["Caroline Cognot <caroline.cognot@agroparistech.fr>"]
+version = "1.0.0-DEV"
+
+[compat]
+julia = "1.11"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
