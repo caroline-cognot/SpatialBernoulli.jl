@@ -3,7 +3,23 @@ uuid = "bdb9b825-6c71-4fe3-be93-6424a91bf7ea"
 authors = ["Caroline Cognot <caroline.cognot@agroparistech.fr>"]
 version = "1.0.0-DEV"
 
+[deps]
+BesselK = "432ab697-7a72-484f-bc4a-bc531f5c819b"
+Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
+ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+MvNormalCDF = "37188c8d-bc69-4638-b057-733e744175ec"
+Optimization = "7f7a1694-90dd-40f0-9382-eb1efda571ba"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+
 [compat]
+BesselK = "0.5.7"
+Distributions = "0.25.123"
+ForwardDiff = "1.3.2"
+LinearAlgebra = "1.11.0"
+MvNormalCDF = "0.3.2"
+Optimization = "5.4.0"
+Random = "1.11.0"
 julia = "1.11"
 
 [extras]

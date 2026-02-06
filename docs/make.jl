@@ -19,7 +19,6 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/caroline-cognot
-/SpatialBernoulli.jl",
+    repo="github.com/caroline-cognot/SpatialBernoulli.jl",
     devbranch="main",
 )
