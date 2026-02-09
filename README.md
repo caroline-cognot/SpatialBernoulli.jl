@@ -13,6 +13,8 @@ $$ \forall s,~  Y_s =
 \end{cases} $$
 with $\Phi$ the cumulative distribution function (CDF) of the standard normal distribution.$$
 
+![Model illustration](docs/src/assets/6fd2db61-1.png
+)
 
 
 [![CI](https://github.com/caroline-cognot/SpatialBernoulli.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/caroline-cognot/SpatialBernoulli.jl/actions/workflows/ci.yml)
@@ -29,7 +31,6 @@ julia>] # switch to pkg> mode
 pkg> add https://github.com/caroline-cognot/SpatialBernoulli.jl
 ```
 To run an example , see documentation.
-
 
 ## Automatically generated  
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://caroline-cognot
