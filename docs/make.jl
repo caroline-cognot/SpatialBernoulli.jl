@@ -1,6 +1,5 @@
 using SpatialBernoulli
-using Documenter
-
+using Documenter , Example
 DocMeta.setdocmeta!(
     SpatialBernoulli, :DocTestSetup, :(using SpatialBernoulli); recursive=true
 )
