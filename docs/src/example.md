@@ -3,6 +3,9 @@
 ```@example ex1
 using SpatialBernoulli 
 using Random
+using OptimizationOptimJL
+rng = MersenneTwister(1234)
+solver = Optim.LBFGS()
 ```
 ## Parameters
 
@@ -38,7 +41,6 @@ use it like any Distributions.jl distribution
 ## Random draws
 
 ```@example ex1
-rng = MersenneTwister(1234)
 
 n = 2000
 y=rand(rng,d,n)
@@ -81,6 +83,6 @@ init_d = SB(init_range, 1.0, init_order, init_lambda, my_distance)
 tdist = maximum(my_distance) / 1
 wp = 1.0 .* (my_distance .< tdist)
 
-@timed sol3 = fit_mle_vfast(init_d, y, wp; order=my_order, return_sol=true, maxiters = 2000)
+@timed sol3 = fit_mle_vfast(init_d, y, wp;solver, order=my_order, return_sol=true, maxiters = 2000)
 
 ```
