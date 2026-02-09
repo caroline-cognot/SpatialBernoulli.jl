@@ -1,7 +1,15 @@
 # SpatialBernoulli.jl
 
-A dummy package for learning how to make packages
-It uses the very real package Extended Extremes, and create a custom distribution.
+A package to define Spatial Bernoulli as 
+
+$$ {X_{Y}}_{1},...,{X_{Y}}_{D} \sim \mathcal{N}(0,C_{Y}) $$
+$$ \forall s,~  Y_s =  
+\begin{cases} 
+    1 & \text{if } {X_{Y}}_{s} \leq  \Phi^{-1}(\lambda_s)  \\ 
+    0 & \text{else} 
+\end{cases} $$
+with $\Phi$ the cumulative distribution function (CDF) of the standard normal distribution.$$
+
 
 [![CI](https://github.com/caroline-cognot/SpatialBernoulli.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/caroline-cognot/SpatialBernoulli.jl/actions/workflows/ci.yml)
 [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://caroline-cognot.github.io/SpatialBernoulli.jl/dev)
