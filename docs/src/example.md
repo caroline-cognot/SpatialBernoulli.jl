@@ -77,7 +77,6 @@ init_range = 0.5
 init_order = 1.5
 init_lambda = fill(0.4, nlocs)
 init_d = SB(init_range, 1.0, init_order, init_lambda, my_distance)
-heatmap(init_d.ΣU)
 
 tdist = maximum(my_distance) / 1
 wp = 1.0 .* (my_distance .< tdist)
