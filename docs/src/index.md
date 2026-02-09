@@ -14,6 +14,3 @@ Documentation for [SpatialBernoulli](https://github.com/caroline-cognot
 Modules = [SpatialBernoulli]
 ```
 
-```@docs
-SB()
-```
