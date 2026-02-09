@@ -37,3 +37,10 @@ pkg> add https://github.com/caroline-cognot/SpatialBernoulli.jl
 ```
 To run an example, see documentation.
 
+## How did I build this package ?
+
+Followed instructions from
+- https://julialang.org/contribute/developing_package/ for the creation of the package using PkgTemplates
+- https://documenter.juliadocs.org/stable/man/guide/ for setting up the documentation
+- https://m3g.github.io/JuliaNotes.jl/stable/publish_docs/ for publishing the documentation
+
