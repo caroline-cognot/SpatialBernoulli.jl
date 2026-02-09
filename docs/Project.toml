@@ -1,4 +1,5 @@
 [deps]
+CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 Example = "7876af07-990d-54b4-ab0e-23690620f79a"
 SpatialBernoulli = "bdb9b825-6c71-4fe3-be93-6424a91bf7ea"
