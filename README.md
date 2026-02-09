@@ -2,6 +2,8 @@
 
 A package to define Spatial Bernoulli as 
 
+$$ {Y} \sim \mathcal{SB}(C_{Y},{\lambda})$$
+
 $$ {X_{Y}}_{1},...,{X_{Y}}_{D} \sim \mathcal{N}(0,C_{Y}) $$
 
 $$ \forall s,~  Y_s =  
