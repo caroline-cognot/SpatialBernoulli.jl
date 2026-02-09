@@ -1,4 +1,5 @@
 module SpatialBernoulli
+using Optimization
 
 export SB,
     matern,
@@ -20,8 +21,7 @@ using MvNormalCDF
 using BesselK
 using BesselK: _gamma
 using ForwardDiff: ForwardDiff # ForwardDiff is currently the only ad supported by `BesselK`
-using Optimization
-using OptimizationOptimJL
+
 include("fast_bivariate_cdf.jl")
 
 """

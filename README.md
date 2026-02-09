@@ -38,12 +38,7 @@ pkg> add https://github.com/caroline-cognot/SpatialBernoulli.jl
 ```
 To run an example, see documentation.
 
-For now, model fitting relies on Optimization and OptimizationOptimJL. 
-Using this package involves importing them with my package, as
-
-```julia
-using SpatialBernoulli, Optimization, OptimizationOptimJL
-```
+For now, model fitting relies on Optimization.
 
 
 ## How did I build this package ?
