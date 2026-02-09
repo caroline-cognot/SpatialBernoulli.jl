@@ -13,6 +13,8 @@ $$ \forall s,~  Y_s =
 \end{cases} $$
 with $\Phi$ the cumulative distribution function (CDF) of the standard normal distribution.$$
 
+Below are examples of generation from the Spatial Bernoulli with constant $\lambda$ in space and the exponential covariance function $C_Y(h)=\exp(-h/\rho)$.
+
 ![Model illustration](docs/src/assets/6fd2db61-1.png
 )
 
