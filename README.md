@@ -1,7 +1,7 @@
 # SpatialBernoulli.jl
 
 A package to define Spatial Bernoulli as 
-$$ \mathbb{Y} \sim \mathcal{SB}(C_{Y},\mathbb{\lambda}) $$
+$$ \bm{Y} \sim \mathcal{SB}(C_{Y},\bm{\lambda})$$
 $$ {X_{Y}}_{1},...,{X_{Y}}_{D} \sim \mathcal{N}(0,C_{Y}) $$
 $$ \forall s,~  Y_s =  
 \begin{cases} 
