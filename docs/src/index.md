@@ -13,3 +13,7 @@ Documentation for [SpatialBernoulli](https://github.com/caroline-cognot
 ```@autodocs
 Modules = [SpatialBernoulli]
 ```
+
+```@docs
+SB()
+```

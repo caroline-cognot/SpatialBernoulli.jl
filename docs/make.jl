@@ -18,3 +18,10 @@ makedocs(;
 deploydocs(; repo="github.com/caroline-cognot/SpatialBernoulli.jl", devbranch="main")
 
 
+# Only deploy on GitHub Actions
+if get(ENV, "GITHUB_ACTIONS", "false") == "true"
+    deploydocs(
+        repo="github.com/caroline-cognot/SpatialBernoulli.jl",
+        devbranch="main"
+    )
+end
