@@ -25,7 +25,7 @@ my_order = 1 / 2
 
 ```
 
-## Create the mixed distribution
+## Create the distribution
 
 ```@example ex1
 d = SB(my_range, my_sill, my_order, my_λ, my_distance)
