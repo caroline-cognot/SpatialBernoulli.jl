@@ -13,9 +13,7 @@ $$ \forall s,~  Y_s =
 \end{cases} $$
 with $\Phi$ the cumulative distribution function (CDF) of the standard normal distribution.$$
 
-<p align="center">
-![logo](https://www.raspberrypi.org/app/uploads/2018/03/RPi-Logo-Reg-SCREEN-199x250.png "Raspberry pi")
-</p>
+
 
 [![CI](https://github.com/caroline-cognot/SpatialBernoulli.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/caroline-cognot/SpatialBernoulli.jl/actions/workflows/ci.yml)
 [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://caroline-cognot.github.io/SpatialBernoulli.jl/dev)
