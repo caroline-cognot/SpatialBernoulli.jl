@@ -22,7 +22,7 @@ function norm_cdf_2d_vfast(x₁, x₂, ρ)
     a²c₂ = a² * c₂
     sqrt_recpr_a²c₂ = sqrt(1 - a²c₂)
     temp = 1 / (4 * sqrt_recpr_a²c₂)
-    
+
     if a > 0
         if aq_plus_b ≥ 0
             a²c₁ = a² * c₁
@@ -32,22 +32,40 @@ function norm_cdf_2d_vfast(x₁, x₂, ρ)
             t₃ = 4 - 4a²c₂
 
             return 0.5 * (erf(x₂ / sqrt2) + erf(b / (sqrt2 * a))) +
-                   temp * exp((t₁ - t₂) / t₃) *
+                   temp *
+                   exp((t₁ - t₂) / t₃) *
                    (1 - erf((sqrt2b - a²c₁) / twicea_sqrt_recpr_a²c₂)) -
-                   temp * exp((t₁ + t₂) / t₃) *
-                   (erf((sqrt2x₂ - sqrt2x₂ * a²c₂ - sqrt2b * a * c₂ - a * c₁) / (2 * sqrt_recpr_a²c₂)) +
-                    erf((a²c₁ + sqrt2b) / twicea_sqrt_recpr_a²c₂))
+                   temp *
+                   exp((t₁ + t₂) / t₃) *
+                   (
+                       erf(
+                           (sqrt2x₂ - sqrt2x₂ * a²c₂ - sqrt2b * a * c₂ - a * c₁) /
+                           (2 * sqrt_recpr_a²c₂),
+                       ) + erf((a²c₁ + sqrt2b) / twicea_sqrt_recpr_a²c₂)
+                   )
         else
             a_c₁ = a * c₁
-            return temp * exp((a_c₁^2 - 2sqrt2b * c₁ + 2b^2 * c₂) / (4 * (1 - a²c₂))) *
-                   (1 + erf((sqrt2x₂ - sqrt2x₂ * a²c₂ - sqrt2b * a * c₂ + a_c₁) / (2 * sqrt_recpr_a²c₂)))
+            return temp *
+                   exp((a_c₁^2 - 2sqrt2b * c₁ + 2b^2 * c₂) / (4 * (1 - a²c₂))) *
+                   (
+                       1 + erf(
+                           (sqrt2x₂ - sqrt2x₂ * a²c₂ - sqrt2b * a * c₂ + a_c₁) /
+                           (2 * sqrt_recpr_a²c₂),
+                       )
+                   )
         end
     else
         if aq_plus_b ≥ 0
             a_c₁ = a * c₁
             return 0.5 + 0.5 * erf(x₂ / sqrt2) -
-                   temp * exp((a_c₁^2 + 2sqrt2b * c₁ + 2b^2 * c₂) / (4 * (1 - a²c₂))) *
-                   (1 + erf((sqrt2x₂ - sqrt2x₂ * a²c₂ - sqrt2b * a * c₂ - a_c₁) / (2 * sqrt_recpr_a²c₂)))
+                   temp *
+                   exp((a_c₁^2 + 2sqrt2b * c₁ + 2b^2 * c₂) / (4 * (1 - a²c₂))) *
+                   (
+                       1 + erf(
+                           (sqrt2x₂ - sqrt2x₂ * a²c₂ - sqrt2b * a * c₂ - a_c₁) /
+                           (2 * sqrt_recpr_a²c₂),
+                       )
+                   )
         else
             sqrt2a = sqrt2 * a
             a_c₁ = a * c₁
@@ -56,10 +74,17 @@ function norm_cdf_2d_vfast(x₁, x₂, ρ)
             t₃ = 4 * (1 - a²c₂)
 
             return 0.5 - 0.5 * erf(b / sqrt2a) -
-                   temp * exp((t₁ + t₂) / t₃) * (1 - erf((sqrt2b + a * a_c₁) / (2a * sqrt_recpr_a²c₂))) +
-                   temp * exp((t₁ - t₂) / t₃) *
-                   (erf((sqrt2x₂ - sqrt2x₂ * a²c₂ - sqrt2b * a * c₂ + a_c₁) / (2 * sqrt_recpr_a²c₂)) +
-                    erf((sqrt2b - a * a_c₁) / (2a * sqrt_recpr_a²c₂)))
+                   temp *
+                   exp((t₁ + t₂) / t₃) *
+                   (1 - erf((sqrt2b + a * a_c₁) / (2a * sqrt_recpr_a²c₂))) +
+                   temp *
+                   exp((t₁ - t₂) / t₃) *
+                   (
+                       erf(
+                           (sqrt2x₂ - sqrt2x₂ * a²c₂ - sqrt2b * a * c₂ + a_c₁) /
+                           (2 * sqrt_recpr_a²c₂),
+                       ) + erf((sqrt2b - a * a_c₁) / (2a * sqrt_recpr_a²c₂))
+                   )
         end
     end
 end
