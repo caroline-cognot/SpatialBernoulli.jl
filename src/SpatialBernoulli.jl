@@ -547,7 +547,7 @@ Return the (weigthed) MLE for the distribution `d::SB`.
 function fit_mle(
     d::SB,
     Y::AbstractArray{<:Real};
-    solver=Optim.LBFGS(),
+    solver,
     m=100 * length(d),
     return_sol=false,
     order=nothing,
@@ -580,7 +580,7 @@ function fit_mle(
     d::SB,
     Y::AbstractArray{<:Real},
     w::AbstractVector{<:Real};
-    solver=Optim.LBFGS(),
+    solver,
     m=100 * length(d),
     return_sol=false,
     order=nothing,
@@ -614,7 +614,7 @@ function fit_mle(
     d::SB,
     Y::AbstractArray{<:Real},
     wp::AbstractMatrix{<:Real};
-    solver=Optim.LBFGS(),
+    solver,
     m=100 * 2,
     return_sol=false,
     order=nothing,
@@ -682,7 +682,7 @@ function fit_mle(
     Y::AbstractArray{<:Real},
     wp::AbstractMatrix{<:Real},
     w::AbstractVector{<:Real};
-    solver=Optim.LBFGS(),
+    solver,
     m=1000 * 2,
     return_sol=false,
     order=nothing,
@@ -749,7 +749,7 @@ function fit_mle_vfast(
     d::SB,
     Y::AbstractArray{<:Real},
     wp::AbstractMatrix{<:Real};
-    solver=Optim.LBFGS(),
+    solver,
     return_sol=false,
     order=nothing,
     solkwargs...,
@@ -814,7 +814,7 @@ function fit_mle_vfast(
     Y::AbstractArray{<:Real},
     wp::AbstractMatrix{<:Real},
     w::AbstractVector{<:Real};
-    solver=Optim.LBFGS(),
+    solver,
     return_sol=false,
     order=nothing,
     solkwargs...,
