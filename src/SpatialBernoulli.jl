@@ -2,14 +2,17 @@ module SpatialBernoulli
 
 export SB, matern, expkernel, rand, pdf, logpdf, loglikelihood , loglikelihood_vfast, fit_mle, fit_mle_vfast
 
-import Distributions: pdf, logpdf, loglikelihood
+import Random: AbstractRNG,rand!
+import Distributions: MvNormal, quantile
+
+import Distributions: pdf, logpdf, loglikelihood , fit_mle, Bernoulli 
 using LinearAlgebra
 using MvNormalCDF
 using BesselK
 using BesselK: _gamma
 using ForwardDiff: ForwardDiff # ForwardDiff is currently the only ad supported by `BesselK`
 using Optimization
-
+using OptimizationOptimJL
 include("fast_bivariate_cdf.jl")
 
 """
@@ -26,7 +29,7 @@ struct SB{TR <: Real, TS <: Real, TO <: Real, AV <: AbstractVector, AM <: Abstra
 	ΣU::AAM
 end
 
-length(d::SB) = length(d.λ)
+Base.length(d::SB) = length(d.λ)
 
 """
 	SB(range, sill, order, λ, h)
@@ -69,8 +72,6 @@ Definition of random sampling of MultivariateBernoulli :
 # rand(dd,2,5) # 
 # ```
 """
-import Random: rand!
-import Distributions: MvNormal, quantile
 
 
 function rand!(rng::AbstractRNG, d::SB, x::AbstractVector{T}) where {T <: Real}
@@ -442,7 +443,7 @@ end
 
 
 """
-	fit_mle(d::SB, Y::AbstractArray{<:Real}[,wp::AbstractMatrix{<:Real}, w::AbstractVector{<:Real}]; solver = Optimization.LBFGS(), m = 1000*length(d), return_sol = false, solkwargs...)
+	fit_mle(d::SB, Y::AbstractArray{<:Real}[,wp::AbstractMatrix{<:Real}, w::AbstractVector{<:Real}]; solver = Optim.LBFGS(), m = 1000*length(d), return_sol = false, solkwargs...)
 Return the (weigthed) MLE for the distribution `d::SB`. 
 - `solver` choice of solver
 - `solkwargs` any keywords arguments that can be put inside the `solve` functions e.g. fit_mle(d, Y; maxiters = 2)
@@ -450,7 +451,7 @@ Return the (weigthed) MLE for the distribution `d::SB`.
 - `wp` not technically  necessary, used for using pairwise loglikelihood instead of true loglikelihood. 
 
 """
-function fit_mle(d::SB, Y::AbstractArray{<:Real}; solver = Optimization.LBFGS(), m = 100 * length(d), return_sol = false, order = nothing, solkwargs...)
+function fit_mle(d::SB, Y::AbstractArray{<:Real}; solver = Optim.LBFGS(), m = 100 * length(d), return_sol = false, order = nothing, solkwargs...)
 	λ_fitted = succprob.([fit_mle(Bernoulli, c) for c in eachrow(Y)])
 	function optimfunction(u, p, m = 500)
 		if isnothing(order)
@@ -470,7 +471,7 @@ function fit_mle(d::SB, Y::AbstractArray{<:Real}; solver = Optimization.LBFGS(),
 	return return_sol ? (SB(exp(sol.u[1]), d.sill, exp(sol.u[2]), λ_fitted, d.h), sol) : SB(exp(sol.u[1]), d.sill, exp(sol.u[2]), λ_fitted, d.h)
 end
 
-function fit_mle(d::SB, Y::AbstractArray{<:Real}, w::AbstractVector{<:Real}; solver = Optimization.LBFGS(), m = 100 * length(d), return_sol = false, order = nothing, solkwargs...)
+function fit_mle(d::SB, Y::AbstractArray{<:Real}, w::AbstractVector{<:Real}; solver = Optim.LBFGS(), m = 100 * length(d), return_sol = false, order = nothing, solkwargs...)
 	λ_fitted = succprob.([fit_mle(Bernoulli, c, w) for c in eachrow(Y)])
 	function optimfunction(u, p, m = 500)
 		if isnothing(order)
@@ -495,7 +496,7 @@ end
 
 
 function fit_mle(d::SB, Y::AbstractArray{<:Real}, wp::AbstractMatrix{<:Real};
-	solver = Optimization.LBFGS(), m = 100 * 2, return_sol = false, order = nothing, solkwargs...)
+	solver = Optim.LBFGS(), m = 100 * 2, return_sol = false, order = nothing, solkwargs...)
 
 	λ_fitted = succprob.([fit_mle(Bernoulli, c) for c in eachrow(Y)])
 
@@ -552,7 +553,7 @@ function fit_mle(d::SB, Y::AbstractArray{<:Real}, wp::AbstractMatrix{<:Real};
 end
 
 
-function fit_mle(d::SB, Y::AbstractArray{<:Real}, wp::AbstractMatrix{<:Real}, w::AbstractVector{<:Real}; solver = Optimization.LBFGS(), m = 1000 * 2, return_sol = false, order = nothing, solkwargs...)
+function fit_mle(d::SB, Y::AbstractArray{<:Real}, wp::AbstractMatrix{<:Real}, w::AbstractVector{<:Real}; solver = Optim.LBFGS(), m = 1000 * 2, return_sol = false, order = nothing, solkwargs...)
 
 	λ_fitted = succprob.([fit_mle(Bernoulli, c, w) for c in eachrow(Y)])
 
@@ -610,7 +611,7 @@ end
 
 
 function fit_mle_vfast(d::SB, Y::AbstractArray{<:Real}, wp::AbstractMatrix{<:Real};
-	solver = Optimization.LBFGS(), return_sol = false, order = nothing, solkwargs...)
+	solver = Optim.LBFGS(), return_sol = false, order = nothing, solkwargs...)
 
 	λ_fitted = succprob.([fit_mle(Bernoulli, c) for c in eachrow(Y)])
 
@@ -652,7 +653,6 @@ function fit_mle_vfast(d::SB, Y::AbstractArray{<:Real}, wp::AbstractMatrix{<:Rea
 			AutoForwardDiff(),
 		)
 		u0 = log.([d.range])
-		@show optimfunction2(u0, Y)
 		prob = OptimizationProblem(optf2, u0, Y)
 
 		# Solve the problem
@@ -674,7 +674,7 @@ function fit_mle_vfast(d::SB, Y::AbstractArray{<:Real}, wp::AbstractMatrix{<:Rea
 end
 
 
-function fit_mle_vfast(d::SB, Y::AbstractArray{<:Real}, wp::AbstractMatrix{<:Real}, w::AbstractVector{<:Real}; solver = Optimization.LBFGS(), return_sol = false, order = nothing, solkwargs...)
+function fit_mle_vfast(d::SB, Y::AbstractArray{<:Real}, wp::AbstractMatrix{<:Real}, w::AbstractVector{<:Real}; solver = Optim.LBFGS(), return_sol = false, order = nothing, solkwargs...)
 
 	λ_fitted = succprob.([fit_mle(Bernoulli, c, w) for c in eachrow(Y)])
 
