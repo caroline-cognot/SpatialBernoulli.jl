@@ -1,7 +1,7 @@
 using SpatialBernoulli
 using Test
 using Random
-	Random.seed!(0)
+rng = MersenneTwister(1234)
 
 #################### D = 36 ######################################
 	# define locations in the unit square
@@ -19,7 +19,7 @@ using Random
 	d = SB(my_range, my_sill, my_order, my_λ, my_distance)
 	# generate data
 	n = 2000
-	y=Bool.(rand(d, n))
+	y=Bool.(rand(rng,d, n))
 
 	# fit a model using initial values
 	init_range = 0.5
@@ -72,7 +72,6 @@ using Random
     end 
    
 
-    Random.seed!(0)
 
 #################### D = 121 ##################################################"""
 	# define locations in the unit square
@@ -90,7 +89,7 @@ using Random
 	d = SB(my_range, my_sill, my_order, my_λ, my_distance)
 	# generate data
 	n = 5000
-	y=Bool.(rand(d, n))
+	y=Bool.(rand(rng,d, n))
 
 	# fit a model using initial values
 	init_range = 0.2
@@ -114,7 +113,6 @@ using Random
    
 ####################### D = 16 #####################################
 
-    Random.seed!(0)
 
 
 	# define locations in the unit square
@@ -132,7 +130,7 @@ using Random
 	d = SB(my_range, my_sill, my_order, my_λ, my_distance)
 	# generate data
 	n = 2000
-	y=Bool.(rand(d, n))
+	y=Bool.(rand(rng,d, n))
 
 	# fit a model using initial values
 	init_range = 0.2
