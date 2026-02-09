@@ -1,9 +1,8 @@
 # Example
 
 ```@example ex1
-using SpatialBernoulli 
+using SpatialBernoulli, Optimization, OptimizationOptimJL
 using Random
-using OptimizationOptimJL
 rng = MersenneTwister(1234)
 solver = Optim.LBFGS()
 ```

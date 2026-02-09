@@ -1,7 +1,6 @@
-using SpatialBernoulli
 using Test
 using Random
-using OptimizationOptimJL
+using SpatialBernoulli, Optimization, OptimizationOptimJL
 rng = MersenneTwister(1234)
 solver = Optim.LBFGS()
 #################### D = 36 ######################################
