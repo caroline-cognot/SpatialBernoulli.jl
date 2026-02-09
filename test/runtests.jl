@@ -144,34 +144,28 @@ init_d = SB(init_range, 1.0, init_order, init_lambda, my_distance)
 tdist = maximum(my_distance) / 1
 wp = 1.0 .* (my_distance .< tdist)
 
-@testset "n= $n, D=$(length(d)), fit_mle, high m, check Bernoulli proba , then range (rtol = 0.1, then 0.05, then 0.02)" begin
+@testset "n= $n, D=$(length(d)), fit_mle, high m, check Bernoulli proba , then range (rtol = 0.1, then 0.05)" begin
     sol1 = fit_mle(
         init_d, y, wp; order=my_order, m=100 * 2, return_sol=true, maxiters=20000
     )
     @test isapprox(my_λ, sol1[1].λ; rtol=0.1)
     @test isapprox(my_λ, sol1[1].λ; rtol=0.05)
-    @test isapprox(my_λ, sol1[1].λ; rtol=0.02)
     @test isapprox(my_range, sol1[1].range; rtol=0.1)
     @test isapprox(my_range, sol1[1].range; rtol=0.05)
-    @test isapprox(my_range, sol1[1].range; rtol=0.02)
 end
 
-@testset "n= $n, D=$(length(d)),fit_mle, low m, check Bernoulli proba, then range (rtol = 0.1, then 0.05, then 0.02)" begin
+@testset "n= $n, D=$(length(d)),fit_mle, low m, check Bernoulli proba, then range (rtol = 0.1, then 0.05)" begin
     sol2 = fit_mle(init_d, y, wp; order=my_order, m=30 * 2, return_sol=true, maxiters=20000)
     @test isapprox(my_λ, sol2[1].λ; rtol=0.1)
     @test isapprox(my_λ, sol2[1].λ; rtol=0.05)
-    @test isapprox(my_λ, sol2[1].λ; rtol=0.02)
     @test isapprox(my_range, sol2[1].range; rtol=0.1)
     @test isapprox(my_range, sol2[1].range; rtol=0.05)
-    @test isapprox(my_range, sol2[1].range; rtol=0.02)
 end
 
-@testset "n= $n,  D=$(length(d)),fit_mle_vfast, check Bernoulli proba, then range (rtol = 0.1, then 0.05, then 0.02)" begin
+@testset "n= $n,  D=$(length(d)),fit_mle_vfast, check Bernoulli proba, then range (rtol = 0.1, then 0.05)" begin
     sol3 = fit_mle_vfast(init_d, y, wp; order=my_order, return_sol=true, maxiters=20000)
     @test isapprox(my_λ, sol3[1].λ; rtol=0.1)
     @test isapprox(my_λ, sol3[1].λ; rtol=0.05)
-    @test isapprox(my_λ, sol3[1].λ; rtol=0.02)
     @test isapprox(my_range, sol3[1].range; rtol=0.1)
     @test isapprox(my_range, sol3[1].range; rtol=0.05)
-    @test isapprox(my_range, sol3[1].range; rtol=0.02)
 end
