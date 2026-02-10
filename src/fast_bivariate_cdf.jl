@@ -1,10 +1,30 @@
 
 using SpecialFunctions, Distributions
-# converted from https://github.com/david-cortes/approxcdf
-# https://github.com/david-cortes/approxcdf/blob/master/src/other.cpp
+
 const c₁ = -1.0950081470333
 const c₂ = -0.75651138383854
 
+"""
+	 norm_cdf_2d_vfast(x₁, x₂, ρ)
+
+Computes the bivariate standard normal cumulative distribution function (CDF) Φ₂(x₁, x₂, ρ) ,
+
+ where   `(X₁,X₂) ~ N(0, [ 1   ρ
+      ρ   1 ])`
+
+# Arguments
+- `x₁::Real`
+- `x₂::Real`
+- `ρ::Real` : correlation value between -1 and 1
+
+# Returns
+`Φ₂(x₁, x₂, ρ) = P(X₁<x₁,X₂<x₂)`
+
+# Source
+Converted from https://github.com/david-cortes/approxcdf
+https://github.com/david-cortes/approxcdf/blob/master/src/other.cpp
+
+"""
 function norm_cdf_2d_vfast(x₁, x₂, ρ)
     if abs(ρ) ≤ eps(ρ)
         return cdf(Normal(), x₁) * cdf(Normal(), x₂)
