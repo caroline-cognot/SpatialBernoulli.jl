@@ -3,6 +3,7 @@
 ```@example ex1
 using SpatialBernoulli, Optimization, OptimizationOptimJL
 using Random
+using ForwardDiff
 rng = MersenneTwister(1234)
 solver = Optim.LBFGS()
 ```
