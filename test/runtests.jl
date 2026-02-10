@@ -25,7 +25,7 @@ y=Bool.(rand(rng, d, n))
 
 # fit a model using initial values
 init_range = 0.5
-init_order = 1.5
+init_order = 0.5
 init_lambda = fill(0.4, nlocs)
 init_d = SB(init_range, 1.0, init_order, init_lambda, my_distance)
 
@@ -87,7 +87,7 @@ y=Bool.(rand(rng, d, n))
 
 # fit a model using initial values
 init_range = 0.2
-init_order = 1.5
+init_order = 0.5
 init_lambda = fill(0.4, nlocs)
 init_d = SB(init_range, 1.0, init_order, init_lambda, my_distance)
 
@@ -128,7 +128,7 @@ y=Bool.(rand(rng, d, n))
 
 # fit a model using initial values
 init_range = 0.2
-init_order = 1.5
+init_order = 0.5
 init_lambda = fill(0.4, nlocs)
 init_d = SB(init_range, 1.0, init_order, init_lambda, my_distance)
 
