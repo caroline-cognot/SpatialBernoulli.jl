@@ -24,7 +24,6 @@ Below are examples of generation from the Spatial Bernoulli with constant $\lamb
 ![Model illustration](docs/src/assets/6fd2db61-1.png
 )
 
-For now, it is absolutely 
 
 
 ## Installation

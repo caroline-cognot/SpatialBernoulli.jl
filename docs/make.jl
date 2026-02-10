@@ -12,8 +12,10 @@ makedocs(;
     format=Documenter.HTML(;
         canonical="https://caroline-cognot.github.io/SpatialBernoulli.jl", edit_link="main"
     ),
-    pages=["Content" => "index.md" ,
-    "Example" => "example.md"],
+    pages=["Home" => "index.md" ,
+    "Example" => "example.md",
+    "Functions"=> "functions.md"],
+
 )
 
 deploydocs(; repo="github.com/caroline-cognot/SpatialBernoulli.jl.git")
