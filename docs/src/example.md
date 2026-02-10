@@ -75,7 +75,7 @@ end
 ## Fitting 
 ```@example ex1
 init_range = 0.5
-init_order = 1.5
+init_order = 0.5
 init_lambda = fill(0.4, nlocs)
 init_d = SB(init_range, 1.0, init_order, init_lambda, my_distance)
 

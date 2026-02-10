@@ -13,7 +13,7 @@ $$ \forall s,~  Y_s =
     1 & \text{if } {X_{Y}}_{s} \leq  \Phi^{-1}(\lambda_s)  \\ 
     0 & \text{else} 
 \end{cases} $$
-with $\Phi$ the cumulative distribution function (CDF) of the standard normal distribution.$$
+with $\Phi$ the cumulative distribution function (CDF) of the standard normal distribution.
 
 It is used in the paper *to be inserted later* to model precipitation occurrence across a large region.
 
@@ -29,8 +29,7 @@ The documentation also provides a simulated example.
 
 Below are examples of generation from the Spatial Bernoulli with constant $\lambda$ in space and the exponential covariance function $C_Y(h)=\exp(-h/\rho)$.
 
-![Model illustration](docs/src/assets/6fd2db61-1.png
-)
+![Model illustration](assets/6fd2db61-1.png)
 
 
 
