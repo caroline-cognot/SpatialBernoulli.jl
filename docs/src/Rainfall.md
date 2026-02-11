@@ -89,14 +89,41 @@ for imonth in 1:12
 end
 ntot = length(Yobs[1,:])
 using CairoMakie
-# plot the parameters
-function Plot(d::Vector{SB})
-    lambda= hcat([d[i].λ for i in 1:length(d)]...);
-    rho = [d[i].range for i in 1:length(d)];
-    p1 = scatter(1:length(d),rho,title = "Estimated range parameter ρ");
-    p2 = scatter(1:length(d),lambda',label="",title="Estimated rain probabilities λₛ");
-    p2 = plot!(p2, 1:length(d),lambda',label="");
-return p1,p2
+
+function plot_parameters(models::Vector{SB})
+    nmonths = length(models)
+
+    ρ = [m.range for m in models]
+    λ = hcat([m.λ for m in models]...)  # (n_sites × n_months)
+
+    fig = Figure(size = (900, 500))
+
+    # --- Panel 1: range parameter ρ ---
+    ax1 = Axis(
+        fig[1, 1],
+        xlabel = "Month",
+        ylabel = L"\rho",
+        title  = L"Estimated range parameter $\rho$"
+    )
+
+    scatter!(ax1, 1:nmonths, ρ; markersize = 10)
+    lines!(ax1, 1:nmonths, ρ)
+
+    # --- Panel 2: site probabilities λ_s ---
+    ax2 = Axis(
+        fig[1, 2],
+        xlabel = "Month",
+        ylabel = L"\lambda_s",
+        title  = L"Estimated rain probabilities $\lambda_s$"
+    )
+
+    for s in 1:size(λ, 1)
+        lines!(ax2, 1:nmonths, λ[s, :], linewidth = 1, alpha = 0.7)
+    end
+
+    fig
+end
+
 
 
 end

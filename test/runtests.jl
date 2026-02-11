@@ -1,6 +1,6 @@
 using Test
 using Random
-using SpatialBernoulli, Optimization, OptimizationOptimJL
+using SpatialBernoulli, Optimization, OptimizationOptimJL,LineSearches
 using ForwardDiff
 
 rng = MersenneTwister(1234)
