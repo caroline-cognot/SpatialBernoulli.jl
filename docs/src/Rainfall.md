@@ -91,34 +91,32 @@ ntot = length(Yobs[1,:])
 using CairoMakie
 
 function plot_parameters(models::Vector{SB})
-    nmonths = length(models)
-
+    months=1:12
+month_labels = ["Jan","Feb","Mar","Apr","May","Jun",
+                "Jul","Aug","Sep","Oct","Nov","Dec"]
     ρ = [m.range for m in models]
     λ = hcat([m.λ for m in models]...)  # (n_sites × n_months)
 
     fig = Figure(size = (900, 500))
-
-    # --- Panel 1: range parameter ρ ---
-    ax1 = Axis(
-        fig[1, 1],
+    ax1 = Axis(fig[1, 1],
         xlabel = "Month",
         ylabel = L"\rho",
-        title  = L"Estimated range parameter $\rho$"
+        title  = L"Estimated range parameter $\rho$",
+            xticks = (months, month_labels)
+
     )
+    scatter!(ax1, months, ρ)
+    lines!(ax1, months, ρ)
 
-    scatter!(ax1, 1:nmonths, ρ; markersize = 10)
-    lines!(ax1, 1:nmonths, ρ)
-
-    # --- Panel 2: site probabilities λ_s ---
-    ax2 = Axis(
-        fig[1, 2],
+    ax2 = Axis(fig[1, 2],
         xlabel = "Month",
         ylabel = L"\lambda_s",
-        title  = L"Estimated rain probabilities $\lambda_s$"
-    )
+        title  = L"Estimated rain probabilities $\lambda_s$",
+            xticks = (months, month_labels)
 
+    )
     for s in 1:size(λ, 1)
-        lines!(ax2, 1:nmonths, λ[s, :], linewidth = 1, alpha = 0.7)
+        lines!(ax2, months, λ[s, :], linewidth = 1, alpha = 0.6)
     end
 
     fig
@@ -126,28 +124,30 @@ end
 
 
 
-end
+
+plot_parameters(vec_models_vfast)
+
 ```
+
+
+## Visualise the results  : comparing simulations to observations
+
+The goal of stochastic weather generators is to be able to simulate quickly many plausible sequences of the meteorological variables, sharing the statistical properties of the observations. 
+
+An objective of this secific model is to accurately reproduce large-scale spatial events, such as widespread dry or wet days.
+We define the `ROR` indicator as
+    `ROR(n) = \frac{1}{D}\sum_{s=1}^D Y_s^{(n)}`
+A low (high) value of `ROR(n)` denotes a dry (wet) day for many locations at the same time. 
+
+The distribution in the observations is compared to the distribution evaluated from many simulations, as well as the autocorrelation of this indicator, for each season.
+
+Unsuprisingly, there is a clear lack of temporal dependance when using a simple SpatialBernoulli, suggesting the need for a structured model (such as HMMs! ). However, the distribution of the indicator itself is not that far off.
 
 ```@example rainfall
-p1,p2=Plot( vec_models_vfast)
-Plots.plot(p1,p2)
-```
-
-## 
-
-# there is probably a better way to do this ?
-Nb = 500
-nlocs= length(my_locations[:,1])
-begin
-    Ys = zeros(Bool, nlocs, ntot, Nb)
-    @time "Simulations  Y" for i in 1:Nb
-        for t in 1:ntot
-        m = month(every_year[t])
-        Ys[:, t, i] = rand(vec_models[m]);
-        end
-    end
-end
+Nb = 10
+D = 37
+using StatsBase
+using LinearAlgebra, NaNMath
 
 begin
     Ysvf = zeros(Bool, nlocs, ntot, Nb)
@@ -159,24 +159,95 @@ begin
     end
 end
 
+RRmax = 0
+RORo = [mean(r .> RRmax) for r in eachcol(Yobs)]
+RORs = [[mean(r .> RRmax) for r in eachcol(rr)] for rr in eachslice(Ysvf, dims=3)]
 
-Ys
-Ysvf
-Yobs
+maxlag = 10
 
-include("../11SpatialBernoulli/plot_validation.jl")
-p=compare_ROR_density(Yobs,Ys)
-savefig(p, "./11SpatialBernoulli/ROR_500sim.png")
+include("assets/utilities.jl")
+begin
+    # Makie ROR distribution and autocorrelation (2×4 grid)
+JJA = [6, 7, 8]
+MAM = [3, 4, 5]
+SON = [9, 10, 11]
+DJF = [12, 1, 2]
+SEASONS = [DJF, MAM, JJA, SON]
+seasonname = ["DJF", "MAM", "JJA", "SON"]
+idx_seasons = [findall(month.(every_year) .∈ tuple(season)) for season in SEASONS]
+    fig_ROR = Figure(fontsize=19)
+    wwww = 200
+    hhhh = 150
+    # Row 1: Distribution plots
+    for m in eachindex(idx_seasons)
+        row = 1
+        col = m
 
-p=compare_ROR_histogram(Yobs,Ys)
-Plots.plot!(p, title= "Rain Occurrence Ratio for 37 stations, 500 simulations",size=(1000,500))
-savefig(p, "./11SpatialBernoulli/ROR_500sim_histo.png")
+        # Distribution subplot
+        ax_dist = Axis(fig_ROR[row, col],
+            xlabel="ROR",
+            ylabel=col == 1 ? "Distribution" : "",
+            title=seasonname[m],
+            width=wwww,
+            height=hhhh)
+        xax = 0:(1/D):1.0
+        xaxbin = vcat(xax, [1.01])
+        errorlinehist!(ax_dist, [RORs[i][idx_seasons[m]] for i in 1:Nb];
+            label="",
+            color=:gray,
+            secondarycolor=:gray, normalization=:probability,
+            bins=xaxbin,
+            errortype=:percentile,
+            percentiles=[0, 100],
+            alpha=0.5,
+            secondaryalpha=0.2,
+            centertype=:median)
+     
+        ylims!(ax_dist, 0, 0.06)
+        col > 1 && hideydecorations!(ax_dist, grid=false)
+
+        # Autocorrelation subplot
+        row = 2
+        ax_acf = Axis(fig_ROR[row, col],
+            xlabel="Lag",
+            ylabel=col == 1 ? "ACF" : "",
+            width=wwww,
+            height=hhhh,
+        )
+
+        rorsim = [RORs[i][idx_seasons[m]] for i in 1:Nb]
+        acf_sim = [autocor(rorsim[i], 0:maxlag) for i in 1:length(rorsim)]
+        errorline!(ax_acf, 0:maxlag, stack(acf_sim, dims=1)',
+            color=:gray,
+            secondarycolor=:gray,
+            errortype=:percentile,
+            percentiles=[0, 100],
+            secondaryalpha=0.2,
+            centertype=:median)
+    
+        # Observations
+        acf_obs = autocor(RORo, 0:maxlag)
+        scatter!(ax_acf, 0:maxlag, acf_obs, color=:blue, markersize=7)
+        col > 1 && hideydecorations!(ax_acf, grid=false)
+    end
+ 
+    Legend(
+    fig_ROR[:, 5],
+    [
+        [LineElement(color=:gray), PolyElement(color=:gray, alpha=0.2)],
+
+        MarkerElement(color=:blue, marker=:circle, markersize=8)
+    ],
+    [
+        "SB",
+        "Observations"
+    ]
+)
+
+    resize_to_layout!(fig_ROR)
+    fig_ROR
+end
+```
 
 
-p=compare_ROR_histogram(Yobs,Ysvf)
-Plots.plot!(p, title= "Rain Occurrence Ratio for 37 stations, 500 simulations",size=(1000,500))
-savefig(p, "./11SpatialBernoulli/vfastROR_500sim_histo.png")
 
-
-
-savefig(pp, "./11SpatialBernoulli/vfastROR_500sim_andparams.png")
