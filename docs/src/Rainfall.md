@@ -202,7 +202,8 @@ idx_seasons = [findall(month.(every_year) .∈ tuple(season)) for season in SEAS
             alpha=0.5,
             secondaryalpha=0.2,
             centertype=:median)
-     
+      scatter!(ax_dist, xax, [mean(RORo[idx_seasons[m]] .== x) for x in xax], color=:blue, markersize=6, label=m == 1 ? "Observations" : nothing)
+
         ylims!(ax_dist, 0, 0.06)
         col > 1 && hideydecorations!(ax_dist, grid=false)
 
