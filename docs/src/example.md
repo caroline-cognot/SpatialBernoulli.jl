@@ -1,11 +1,11 @@
 # Example
 
 ```@example ex1
-using SpatialBernoulli, Optimization, OptimizationOptimJL
+using SpatialBernoulli, Optimization,OptimizationOptimJL, Optim
+using LineSearches
 using Random
-using ForwardDiff
+import ForwardDiff
 rng = MersenneTwister(1234)
-solver = Optim.LBFGS()
 ```
 ## Parameters
 
@@ -83,6 +83,8 @@ init_d = SB(init_range, 1.0, init_order, init_lambda, my_distance)
 tdist = maximum(my_distance) / 1
 wp = 1.0 .* (my_distance .< tdist)
 
-@timed sol3 = fit_mle_vfast(init_d, y, wp;solver, order=my_order, return_sol=true, maxiters = 2000)
+@timed sol3 = fit_mle_vfast(init_d, y, wp; solver = Optim.LBFGS(
+    linesearch = LineSearches.BackTracking()
+), order=my_order, return_sol=true, maxiters = 2000)
 
 ```

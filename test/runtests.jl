@@ -4,7 +4,8 @@ using SpatialBernoulli, Optimization, OptimizationOptimJL
 using ForwardDiff
 
 rng = MersenneTwister(1234)
-solver = Optim.LBFGS()
+solver =  Optim.LBFGS(
+    linesearch = LineSearches.BackTracking())
 #################### D = 36 ######################################
 # define locations in the unit square
 my_locations = vcat(([x y] for x in 0:0.2:1 for y in 0:0.2:1)...)
