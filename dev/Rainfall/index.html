@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Rainfall example · SpatialBernoulli.jl</title><meta name="title" content="Rainfall example · SpatialBernoulli.jl"/><meta property="og:title" content="Rainfall example · SpatialBernoulli.jl"/><meta property="twitter:title" content="Rainfall example · SpatialBernoulli.jl"/><meta name="description" content="Documentation for SpatialBernoulli.jl."/><meta property="og:description" content="Documentation for SpatialBernoulli.jl."/><meta property="twitter:description" content="Documentation for SpatialBernoulli.jl."/><meta property="og:url" content="https://caroline-cognot.github.io/SpatialBernoulli.jl/Rainfall/"/><meta property="twitter:url" content="https://caroline-cognot.github.io/SpatialBernoulli.jl/Rainfall/"/><link rel="canonical" href="https://caroline-cognot.github.io/SpatialBernoulli.jl/Rainfall/"/><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../search_index.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">SpatialBernoulli.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li><a class="tocitem" href="../example/">Example</a></li><li><a class="tocitem" href="../functions/">Functions</a></li><li class="is-active"><a class="tocitem" href>Rainfall example</a><ul class="internal"><li><a class="tocitem" href="#Getting-the-data"><span>Getting the data</span></a></li><li><a class="tocitem" href="#Inference-for-each-month"><span>Inference for each month</span></a></li><li><a class="tocitem" href="#Visualise-the-results-:-parameters"><span>Visualise the results  : parameters</span></a></li><li><a class="tocitem" href="#Visualise-the-results-:-comparing-simulations-to-observations"><span>Visualise the results  : comparing simulations to observations</span></a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Rainfall example</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Rainfall example</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/caroline-cognot/SpatialBernoulli.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/caroline-cognot/SpatialBernoulli.jl/blob/main/docs/src/Rainfall.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Modelling-the-rainfall-occurrence-in-France"><a class="docs-heading-anchor" href="#Modelling-the-rainfall-occurrence-in-France">Modelling the rainfall occurrence in France</a><a id="Modelling-the-rainfall-occurrence-in-France-1"></a><a class="docs-heading-anchor-permalink" href="#Modelling-the-rainfall-occurrence-in-France" title="Permalink"></a></h1><p>Let us use the <code>SB</code> distribution to model rain occurrence across France. The data used is extracted from the <a href="https://www.ecad.eu/dailydata/index.php">ECAD</a> database. </p><p>It consists in daily rainfall occurrence at D=37 locations in France.</p><pre><code class="language-julia hljs">using SpatialBernoulli, Optimization,OptimizationOptimJL, Optim
+using CSV,DataFrames
+using Random
+import ForwardDiff
+Random.seed!(1234)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">Random.TaskLocalRNG()</code></pre><h2 id="Getting-the-data"><a class="docs-heading-anchor" href="#Getting-the-data">Getting the data</a><a id="Getting-the-data-1"></a><a class="docs-heading-anchor-permalink" href="#Getting-the-data" title="Permalink"></a></h2><pre><code class="language-julia hljs">station_50Q = CSV.read(&quot;data/transformedECAD_stations.csv&quot;,DataFrame);
+Yobs=Matrix(CSV.read(&quot;data/transformedECAD_Yobs.csv&quot;,header=false,DataFrame));
+my_distance =Matrix(CSV.read(&quot;data/transformedECAD_locsdistances.csv&quot;,header=false,DataFrame));</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">37×37 Matrix{Float64}:
+   0.0    389.896   307.699  482.271   344.316  …  317.574   422.329  184.346
+ 389.896    0.0     173.655  155.985   725.256     654.644   543.313  571.883
+ 307.699  173.655     0.0    327.626   605.781     616.454   369.69   468.686
+ 482.271  155.985   327.626    0.0     826.539     692.529   696.731  665.99
+ 344.316  725.256   605.781  826.539     0.0       345.157   486.874  162.749
+ 394.101  783.497   678.832  871.133   101.807  …  302.446   587.462  212.348
+ 293.731  627.068   483.636  749.883   169.486     440.745   317.394  181.57
+ 234.259  546.886   401.97   672.817   230.258     439.144   272.019  177.973
+ 300.506  456.444   286.283  604.072   417.315     586.314   122.598  344.704
+ 207.579  498.035   476.966  532.98    398.37      159.817   626.323  257.754
+   ⋮                                            ⋱              ⋮      
+ 461.379   71.9253  221.477  146.955   794.846     724.88    585.041  642.74
+ 406.969  208.141   345.24   128.604   747.013     577.301   695.839  584.3
+ 765.765  633.85    780.438  495.006  1058.97   …  773.231  1121.29   906.242
+ 309.531  348.062   174.423  501.18    514.518     622.706   195.552  412.007
+ 476.645  688.338   516.76   836.328   410.028     692.304   171.331  429.33
+ 434.226  724.252   563.543  860.259   273.911     588.111   286.226  333.402
+ 317.574  654.644   616.454  692.529   345.157       0.0     698.055  263.061
+ 422.329  543.313   369.69   696.731   486.874  …  698.055     0.0    445.693
+ 184.346  571.883   468.686  665.99    162.749     263.061   445.693    0.0</code></pre><p>First, we split the data in months. Explicit seasonality in the sense of periodic parameterisation is not treated here, see <a href="https://github.com/caroline-cognot/HMM_Spatial_codepaper">here</a> for using this type of model in a periodic setting, or <a href="https://github.com/dmetivie/SmoothPeriodicStatsModels.jl">here</a> for other parameterisations.</p><pre><code class="language-julia hljs">my_locations = hcat(station_50Q.LON_idx, station_50Q.LAT_idx)
+nlocs = length(my_locations[:, 1])
+
+select_month = function (m::Int64, dates, Y::AbstractMatrix)
+    indicesm = findall(month.(dates) .== m)
+    return Y[:, indicesm]
+end
+
+using Dates
+date_start = Date(1973)
+
+
+date_end = Date(2024) - Day(1)
+
+every_year = date_start:Day(1):date_end
+dates = every_year
+
+
+Ymonths = [select_month(m, every_year, Yobs) for m in 1:12];</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">12-element Vector{Matrix{Bool}}:
+ [0 0 … 1 0; 0 0 … 0 0; … ; 0 0 … 1 1; 0 0 … 0 0]
+ [0 0 … 0 0; 0 0 … 0 0; … ; 1 0 … 0 1; 0 0 … 0 0]
+ [1 1 … 1 1; 0 1 … 0 0; … ; 0 0 … 1 1; 1 0 … 1 1]
+ [0 1 … 0 0; 0 1 … 1 1; … ; 0 1 … 1 0; 1 1 … 0 0]
+ [1 1 … 0 0; 1 0 … 0 1; … ; 1 0 … 0 0; 1 1 … 0 0]
+ [1 0 … 0 1; 1 0 … 1 1; … ; 0 1 … 0 1; 1 1 … 0 1]
+ [0 0 … 0 1; 0 0 … 0 0; … ; 0 0 … 0 1; 0 0 … 0 1]
+ [1 0 … 0 1; 1 0 … 0 0; … ; 0 1 … 1 1; 1 1 … 0 1]
+ [0 0 … 0 1; 0 0 … 0 0; … ; 0 0 … 0 0; 0 0 … 0 1]
+ [0 0 … 1 1; 1 1 … 1 0; … ; 0 0 … 1 1; 0 0 … 1 1]
+ [0 0 … 1 1; 0 0 … 1 1; … ; 0 0 … 1 1; 0 0 … 1 1]
+ [0 0 … 1 1; 1 0 … 0 1; … ; 1 0 … 1 1; 0 0 … 1 1]</code></pre><h2 id="Inference-for-each-month"><a class="docs-heading-anchor" href="#Inference-for-each-month">Inference for each month</a><a id="Inference-for-each-month-1"></a><a class="docs-heading-anchor-permalink" href="#Inference-for-each-month" title="Permalink"></a></h2><p>We can now estimate model parameters for each month, using the <code>fit_mle_vfast</code> method. The results are saved to the <code>data</code> folder. This is easily multi-thread-able.</p><pre><code class="language-julia hljs">using JLD2
+using LineSearches
+
+for imonth in 1:12
+    y = Ymonths[imonth]
+    n = length(y[1, :])
+
+
+    init_range = 600
+    init_order = 0.5
+    init_lambda = fill(0.4, nlocs)
+    init_d = SB(init_range, 1.0, init_order, init_lambda, my_distance)
+
+    #pairwise solution
+    tdist = maximum(my_distance) / 3
+    wp = 1.0 .* (my_distance .&lt; tdist)
+
+    @time sol_fixednu = fit_mle_vfast(init_d, y, wp;solver = Optim.LBFGS(
+    linesearch = LineSearches.BackTracking()
+)
+,  order=1/2,maxiters = 100, return_sol=false)
+
+    # Save to JLD2 file
+    save(&quot;data/vfastfitted_month_QMC100&quot; * string(imonth) * &quot;.jld2&quot;, Dict(&quot;d&quot; =&gt; sol_fixednu))
+
+end</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">  7.981896 seconds (18.76 M allocations: 909.487 MiB, 5.10% gc time, 98.25% compilation time: &lt;1% of which was recompilation)
+  0.145148 seconds (150.93 k allocations: 7.317 MiB)
+  0.235142 seconds (183.58 k allocations: 9.617 MiB)
+  0.144488 seconds (130.64 k allocations: 6.443 MiB)
+  0.162593 seconds (134.27 k allocations: 6.698 MiB)
+  0.183517 seconds (161.81 k allocations: 8.083 MiB)
+  0.257573 seconds (190.82 k allocations: 10.127 MiB)
+  0.183975 seconds (141.52 k allocations: 7.209 MiB)
+  0.128853 seconds (123.39 k allocations: 5.932 MiB)
+  0.181926 seconds (154.56 k allocations: 7.573 MiB)
+  0.168431 seconds (154.56 k allocations: 7.573 MiB)
+  0.160459 seconds (150.93 k allocations: 7.317 MiB)</code></pre><h2 id="Visualise-the-results-:-parameters"><a class="docs-heading-anchor" href="#Visualise-the-results-:-parameters">Visualise the results  : parameters</a><a id="Visualise-the-results-:-parameters-1"></a><a class="docs-heading-anchor-permalink" href="#Visualise-the-results-:-parameters" title="Permalink"></a></h2><pre><code class="language-julia hljs">vec_models_vfast = Vector{SB}(undef, 12)
+for imonth in 1:12
+    vec_models_vfast[imonth] = load(&quot;data/vfastfitted_month_QMC100&quot; * string(imonth) * &quot;.jld2&quot;)[&quot;d&quot;]
+end
+ntot = length(Yobs[1,:])
+using CairoMakie
+
+function plot_parameters(models::Vector{SB})
+    months=1:12
+month_labels = [&quot;Jan&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Apr&quot;,&quot;May&quot;,&quot;Jun&quot;,
+                &quot;Jul&quot;,&quot;Aug&quot;,&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot;,&quot;Dec&quot;]
+    ρ = [m.range for m in models]
+    λ = hcat([m.λ for m in models]...)  # (n_sites × n_months)
+
+    fig = Figure(size = (900, 500))
+    ax1 = Axis(fig[1, 1],
+        xlabel = &quot;Month&quot;,
+        ylabel = L&quot;\rho&quot;,
+        title  = L&quot;Estimated range parameter $\rho$&quot;,
+            xticks = (months, month_labels)
+
+    )
+    scatter!(ax1, months, ρ)
+    lines!(ax1, months, ρ)
+
+    ax2 = Axis(fig[1, 2],
+        xlabel = &quot;Month&quot;,
+        ylabel = L&quot;\lambda_s&quot;,
+        title  = L&quot;Estimated rain probabilities $\lambda_s$&quot;,
+            xticks = (months, month_labels)
+
+    )
+    for s in 1:size(λ, 1)
+        lines!(ax2, months, λ[s, :], linewidth = 1, alpha = 0.6)
+    end
+
+    fig
+end
+
+
+
+
+plot_parameters(vec_models_vfast)</code></pre><img src="54124252.png" alt="Example block output"/><h2 id="Visualise-the-results-:-comparing-simulations-to-observations"><a class="docs-heading-anchor" href="#Visualise-the-results-:-comparing-simulations-to-observations">Visualise the results  : comparing simulations to observations</a><a id="Visualise-the-results-:-comparing-simulations-to-observations-1"></a><a class="docs-heading-anchor-permalink" href="#Visualise-the-results-:-comparing-simulations-to-observations" title="Permalink"></a></h2><p>The goal of stochastic weather generators is to be able to simulate quickly many plausible sequences of the meteorological variables, sharing the statistical properties of the observations. </p><p>An objective of this secific model is to accurately reproduce large-scale spatial events, such as widespread dry or wet days. We define the <code>ROR</code> indicator as     <code>ROR(n) = \frac{1}{D}\sum_{s=1}^D Y_s^{(n)}</code> A low (high) value of <code>ROR(n)</code> denotes a dry (wet) day for many locations at the same time. </p><p>The distribution in the observations is compared to the distribution evaluated from many simulations, as well as the autocorrelation of this indicator, for each season.</p><p>Unsuprisingly, there is a clear lack of temporal dependance when using a simple SpatialBernoulli, suggesting the need for a structured model (such as HMMs! ). However, the distribution of the indicator itself is not that far off.</p><pre><code class="language-julia hljs">Nb = 10
+D = 37
+using StatsBase
+using LinearAlgebra, NaNMath
+
+begin
+    Ysvf = zeros(Bool, nlocs, ntot, Nb)
+    @time &quot;Simulations  Y&quot; for i in 1:Nb
+        for t in 1:ntot
+        m = month(every_year[t])
+        Ysvf[:, t, i] = rand(vec_models_vfast[m]);
+        end
+    end
+end
+
+RRmax = 0
+RORo = [mean(r .&gt; RRmax) for r in eachcol(Yobs)]
+RORs = [[mean(r .&gt; RRmax) for r in eachcol(rr)] for rr in eachslice(Ysvf, dims=3)]
+
+maxlag = 10
+
+include(&quot;assets/utilities.jl&quot;)
+begin
+    # Makie ROR distribution and autocorrelation (2×4 grid)
+JJA = [6, 7, 8]
+MAM = [3, 4, 5]
+SON = [9, 10, 11]
+DJF = [12, 1, 2]
+SEASONS = [DJF, MAM, JJA, SON]
+seasonname = [&quot;DJF&quot;, &quot;MAM&quot;, &quot;JJA&quot;, &quot;SON&quot;]
+idx_seasons = [findall(month.(every_year) .∈ tuple(season)) for season in SEASONS]
+    fig_ROR = Figure(fontsize=19)
+    wwww = 200
+    hhhh = 150
+    # Row 1: Distribution plots
+    for m in eachindex(idx_seasons)
+        row = 1
+        col = m
+
+        # Distribution subplot
+        ax_dist = Axis(fig_ROR[row, col],
+            xlabel=&quot;ROR&quot;,
+            ylabel=col == 1 ? &quot;Distribution&quot; : &quot;&quot;,
+            title=seasonname[m],
+            width=wwww,
+            height=hhhh)
+        xax = 0:(1/D):1.0
+        xaxbin = vcat(xax, [1.01])
+        errorlinehist!(ax_dist, [RORs[i][idx_seasons[m]] for i in 1:Nb];
+            label=&quot;&quot;,
+            color=:gray,
+            secondarycolor=:gray, normalization=:probability,
+            bins=xaxbin,
+            errortype=:percentile,
+            percentiles=[0, 100],
+            alpha=0.5,
+            secondaryalpha=0.2,
+            centertype=:median)
+      scatter!(ax_dist, xax, [mean(RORo[idx_seasons[m]] .== x) for x in xax], color=:blue, markersize=6, label=m == 1 ? &quot;Observations&quot; : nothing)
+
+        ylims!(ax_dist, 0, 0.06)
+        col &gt; 1 &amp;&amp; hideydecorations!(ax_dist, grid=false)
+
+        # Autocorrelation subplot
+        row = 2
+        ax_acf = Axis(fig_ROR[row, col],
+            xlabel=&quot;Lag&quot;,
+            ylabel=col == 1 ? &quot;ACF&quot; : &quot;&quot;,
+            width=wwww,
+            height=hhhh,
+        )
+
+        rorsim = [RORs[i][idx_seasons[m]] for i in 1:Nb]
+        acf_sim = [autocor(rorsim[i], 0:maxlag) for i in 1:length(rorsim)]
+        errorline!(ax_acf, 0:maxlag, stack(acf_sim, dims=1)&#39;,
+            color=:gray,
+            secondarycolor=:gray,
+            errortype=:percentile,
+            percentiles=[0, 100],
+            secondaryalpha=0.2,
+            centertype=:median)
+
+        # Observations
+        acf_obs = autocor(RORo, 0:maxlag)
+        scatter!(ax_acf, 0:maxlag, acf_obs, color=:blue, markersize=7)
+        col &gt; 1 &amp;&amp; hideydecorations!(ax_acf, grid=false)
+    end
+
+    Legend(
+    fig_ROR[:, 5],
+    [
+        [LineElement(color=:gray), PolyElement(color=:gray, alpha=0.2)],
+
+        MarkerElement(color=:blue, marker=:circle, markersize=8)
+    ],
+    [
+        &quot;SB&quot;,
+        &quot;Observations&quot;
+    ]
+)
+
+    resize_to_layout!(fig_ROR)
+    fig_ROR
+end</code></pre><img src="f1ef7774.png" alt="Example block output"/></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../functions/">« Functions</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Wednesday 11 February 2026 11:26">Wednesday 11 February 2026</span>. Using Julia version 1.12.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
