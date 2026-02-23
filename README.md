@@ -19,6 +19,8 @@ $$ \forall s,~  Y_s =
 \end{cases} $$
 with $\Phi$ the cumulative distribution function (CDF) of the standard normal distribution.$$
 
+Used in the following preprint : https://hal.science/hal-05523768v1
+
 Below are examples of generation from the Spatial Bernoulli with constant $\lambda$ in space and the exponential covariance function $C_Y(h)=\exp(-h/\rho)$.
 
 ![Model illustration](docs/src/assets/6fd2db61-1.png
@@ -39,6 +41,10 @@ To run an example, see documentation.
 
 For now, model fitting relies on Optimization.
 
+## Other Multivariate Bernoulli packages
+
+- https://github.com/dufourc1/MVBernoulli.jl : explicit modelling of all joint probabilities
+- https://github.com/aerdely/MultivariateBernoulli : copula characterisation 
 
 ## How did I build this package ?
 
