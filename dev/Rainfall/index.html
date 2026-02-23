@@ -80,18 +80,18 @@ for imonth in 1:12
     # Save to JLD2 file
     save(&quot;data/vfastfitted_month_QMC100&quot; * string(imonth) * &quot;.jld2&quot;, Dict(&quot;d&quot; =&gt; sol_fixednu))
 
-end</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">  7.981896 seconds (18.76 M allocations: 909.487 MiB, 5.10% gc time, 98.25% compilation time: &lt;1% of which was recompilation)
-  0.145148 seconds (150.93 k allocations: 7.317 MiB)
-  0.235142 seconds (183.58 k allocations: 9.617 MiB)
-  0.144488 seconds (130.64 k allocations: 6.443 MiB)
-  0.162593 seconds (134.27 k allocations: 6.698 MiB)
-  0.183517 seconds (161.81 k allocations: 8.083 MiB)
-  0.257573 seconds (190.82 k allocations: 10.127 MiB)
-  0.183975 seconds (141.52 k allocations: 7.209 MiB)
-  0.128853 seconds (123.39 k allocations: 5.932 MiB)
-  0.181926 seconds (154.56 k allocations: 7.573 MiB)
-  0.168431 seconds (154.56 k allocations: 7.573 MiB)
-  0.160459 seconds (150.93 k allocations: 7.317 MiB)</code></pre><h2 id="Visualise-the-results-:-parameters"><a class="docs-heading-anchor" href="#Visualise-the-results-:-parameters">Visualise the results  : parameters</a><a id="Visualise-the-results-:-parameters-1"></a><a class="docs-heading-anchor-permalink" href="#Visualise-the-results-:-parameters" title="Permalink"></a></h2><pre><code class="language-julia hljs">vec_models_vfast = Vector{SB}(undef, 12)
+end</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">  7.739438 seconds (18.82 M allocations: 911.995 MiB, 5.44% gc time, 98.23% compilation time: &lt;1% of which was recompilation)
+  0.139211 seconds (150.93 k allocations: 7.317 MiB)
+  0.222412 seconds (183.58 k allocations: 9.617 MiB)
+  0.136025 seconds (130.64 k allocations: 6.443 MiB)
+  0.156769 seconds (134.27 k allocations: 6.698 MiB)
+  0.173542 seconds (161.81 k allocations: 8.083 MiB)
+  0.259515 seconds (198.07 k allocations: 10.637 MiB)
+  0.169386 seconds (141.52 k allocations: 7.209 MiB)
+  0.137833 seconds (123.39 k allocations: 5.932 MiB)
+  0.172875 seconds (154.56 k allocations: 7.573 MiB)
+  0.158121 seconds (154.56 k allocations: 7.573 MiB)
+  0.155842 seconds (150.93 k allocations: 7.317 MiB)</code></pre><h2 id="Visualise-the-results-:-parameters"><a class="docs-heading-anchor" href="#Visualise-the-results-:-parameters">Visualise the results  : parameters</a><a id="Visualise-the-results-:-parameters-1"></a><a class="docs-heading-anchor-permalink" href="#Visualise-the-results-:-parameters" title="Permalink"></a></h2><pre><code class="language-julia hljs">vec_models_vfast = Vector{SB}(undef, 12)
 for imonth in 1:12
     vec_models_vfast[imonth] = load(&quot;data/vfastfitted_month_QMC100&quot; * string(imonth) * &quot;.jld2&quot;)[&quot;d&quot;]
 end
@@ -236,4 +236,4 @@ idx_seasons = [findall(month.(every_year) .∈ tuple(season)) for season in SEAS
 
     resize_to_layout!(fig_ROR)
     fig_ROR
-end</code></pre><img src="f1ef7774.png" alt="Example block output"/></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../functions/">« Functions</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Wednesday 11 February 2026 11:26">Wednesday 11 February 2026</span>. Using Julia version 1.12.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+end</code></pre><img src="f1ef7774.png" alt="Example block output"/></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../functions/">« Functions</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.17.0 on <span class="colophon-date" title="Monday 23 February 2026 14:09">Monday 23 February 2026</span>. Using Julia version 1.12.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
